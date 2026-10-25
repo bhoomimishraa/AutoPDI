@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+python-multipart
+anthropic
+faiss-cpu
+sentence-transformers
+transformers
+torch
+pillow
+pypdf
+numpy

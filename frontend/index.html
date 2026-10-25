@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AutoPDI</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f6fc;--card:#fff;--ink:#0f1b3d;--mut:#7283a3;--line:#e3e9f5;--side:#081a42;--act:#1d4fbf;--blue:#2f6bff;--cy:#35b6ff;--ok:#16a34a;--bad:#dc2626;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1226;--card:#131c36;--ink:#e8eefc;--mut:#8fa0c4;--line:#22305a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1226;--card:#131c36;--ink:#e8eefc;--mut:#8fa0c4;--line:#22305a;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);display:flex;font-size:14px}
+button{font:inherit;cursor:pointer}
+svg.i{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+aside{width:268px;background:var(--side);color:#fff;display:flex;flex-direction:column;padding:22px 20px;flex:none;height:100%}
+.logo{display:flex;align-items:center;gap:10px;font-size:32px;font-weight:800;letter-spacing:-.5px}.logo svg{width:46px;height:30px}.logo b{color:var(--cy);font-weight:800}
+.tag{font-size:13px;margin:6px 0 34px;color:#dfe8ff}
+nav button{display:flex;align-items:center;gap:16px;width:100%;background:none;border:0;color:#fff;font-size:16px;font-weight:500;padding:14px 12px;border-radius:10px;margin-bottom:6px;text-align:left}
+nav button.on{background:var(--act)}nav button svg{width:26px;height:26px}
+.status{margin-top:auto;border:1px solid #2a3f78;border-radius:10px;padding:14px;font-size:13px}.status i{display:inline-block;width:12px;height:12px;border-radius:50%;background:#22d36b;margin-right:10px}.status small{display:block;margin-top:8px;color:#b9c7ee}
+main{flex:1;min-width:0;height:100%;overflow:auto;padding:22px 28px 30px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.greet{font-size:13px;color:var(--mut);line-height:1.3}.greet b{display:block;font-size:17px;color:var(--ink)}
+.sp{flex:1}.bell{position:relative;background:none;border:0;color:var(--ink);padding:8px}.bell:after{content:"";position:absolute;top:6px;right:8px;width:8px;height:8px;background:#ef4444;border-radius:50%}
+.user{display:flex;align-items:center;gap:10px;font-weight:600;border-left:1px solid var(--line);padding-left:18px;cursor:pointer}
+.av{width:38px;height:38px;border-radius:50%;background:var(--side);color:#fff;display:grid;place-items:center}
+.hero{border-radius:12px;background:linear-gradient(100deg,#050d24 0%,#0b1d4a 55%,#16306a);color:#fff;padding:36px 32px;position:relative;overflow:hidden;min-height:280px}
+.hero h1{font-size:36px;line-height:1.15;margin:0 0 14px;max-width:470px}.hero h1 em{font-style:normal;color:var(--cy)}
+.hero p{font-size:17px;max-width:380px;margin:0 0 30px;line-height:1.5}
+.pills{display:flex;gap:14px;flex-wrap:wrap;position:relative;z-index:2}.pill{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;padding-right:14px;border-right:1px solid #ffffff2e}.pill:last-child{border:0}.pill span{width:38px;height:38px;border-radius:50%;background:#ffffff1c;display:grid;place-items:center}
+.car{position:absolute;right:-20px;bottom:-6px;width:60%;max-width:640px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px;margin-top:26px}
+h2{font-size:24px;margin:0}.sub{color:var(--mut);margin:6px 0 18px}
+.qa{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.card{border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--card);cursor:pointer;display:flex;flex-direction:column;gap:8px;text-align:left;color:var(--ink);transition:box-shadow .15s}
+.card:hover{box-shadow:0 6px 18px #1d4fbf24}
+.qa .card:nth-child(-n+4){grid-column:span 3}.qa .card:nth-child(n+5){grid-column:span 4}
+.ic{width:74px;height:66px;border-radius:12px;display:grid;place-items:center;margin-bottom:6px}.ic svg{width:40px;height:40px}
+.card b{font-size:15px;line-height:1.25}.card small{color:var(--mut);font-size:12.5px;line-height:1.45;min-height:54px}
+.go{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;margin-top:auto;background:#fff}
+.t1{background:linear-gradient(#eef6ff,#f6f9ff)}.t2{background:linear-gradient(#ecfbfb,#f5fdfd)}.t3{background:linear-gradient(#edfbf4,#f6fdf9)}.t4{background:linear-gradient(#f3f0ff,#f9f7ff)}.t5{background:linear-gradient(#fff6e8,#fffaf3)}.t6{background:linear-gradient(#fff0f3,#fff7f8)}
+:root[data-theme="dark"] .card[class*=" t"]{background:var(--card)}
+.panel{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:20px;align-self:start}
+.ph{display:flex;gap:14px;margin-bottom:12px}.ph svg{width:34px;height:34px;color:var(--blue)}.ph h3{margin:0;font-size:19px}.ph p{margin:6px 0 0;color:var(--mut);font-size:13px;line-height:1.45}
+.ct{border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:10px;display:grid;grid-template-columns:44px 1fr auto;gap:2px 10px;align-items:center}
+.ct .hi{grid-row:span 3;color:var(--act)}.ct .hi svg{width:34px;height:34px}.ct b{font-size:14px}.ct small{color:var(--mut);font-size:12px}.km{color:var(--act);font-size:12px;font-weight:600;display:flex;gap:4px;align-items:center}
+.rt{font-size:12.5px;color:var(--mut)}.rt b{color:var(--ink)}.rt s{color:#f5a524;text-decoration:none}
+.btns{display:flex;gap:8px;justify-content:flex-end;grid-column:2/4}
+.btn{border:1px solid #bcd0f7;background:var(--card);color:var(--act);border-radius:8px;padding:7px 14px;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.btn.p{background:var(--act);border-color:var(--act);color:#fff}.btn.d{color:var(--bad);border-color:#f3c3c3}
+.note{margin-top:14px;background:#eaf2ff;color:#1d4fbf;border-radius:10px;padding:14px;font-size:13px;display:flex;gap:10px;line-height:1.5}
+:root[data-theme="dark"] .note{background:#17274f;color:#9fc0ff}
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
+.f{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}.f label{font-size:12.5px;color:var(--mut);display:grid;gap:5px;font-weight:600}
+.sec{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:16px;margin-bottom:14px}.sec h3{margin:0 0 10px;font-size:16px}
+.row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}.row span{flex:1}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}.seg button{border:0;background:none;color:var(--mut);padding:6px 12px;font-weight:600;font-size:12.5px}
+.seg button.pass{background:var(--ok);color:#fff}.seg button.fail{background:var(--bad);color:#fff}.seg button.na{background:var(--mut);color:#fff}
+.thumbs{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.thumbs img{width:110px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.tbl{width:100%;border-collapse:collapse}.tbl th,.tbl td{text-align:left;padding:12px;border-bottom:1px solid var(--line)}.tbl th{color:var(--mut);font-size:12.5px}
+.chip{padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700}.chip.g{background:#dcfce7;color:#166534}.chip.r{background:#fee2e2;color:#991b1b}
+.modal{position:fixed;inset:0;background:#0009;display:none;place-items:center;z-index:9;padding:16px}.modal.on{display:grid}.mb{background:var(--card);border-radius:14px;padding:24px;max-width:460px;width:100%;max-height:85vh;overflow:auto}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--side);color:#fff;padding:12px 20px;border-radius:10px;display:none;z-index:10}
+.dd{position:absolute;right:130px;top:60px;width:300px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:0 10px 30px #0003;display:none;z-index:8}.dd.on{display:block}.dd p{margin:0 0 10px;font-size:13px}
+.fab{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:7;background:linear-gradient(135deg,var(--blue),var(--cy));color:#fff;border:0;border-radius:99px;padding:14px 20px;font-weight:700;box-shadow:0 8px 24px #1d4fbf55;display:flex;gap:8px;align-items:center}
+#ai{position:fixed;right:24px;bottom:calc(84px + env(safe-area-inset-bottom,0px));width:380px;max-width:calc(100vw - 32px);height:520px;max-height:70vh;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 48px #0004;display:none;flex-direction:column;z-index:7}#ai.on{display:flex}
+#ai .h{padding:14px 16px;border-bottom:1px solid var(--line);font-weight:700;display:flex;justify-content:space-between}#ai .h button{background:none;border:0;color:var(--mut);font-size:18px}
+#am{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px}.m{max-width:85%;padding:10px 12px;border-radius:12px;line-height:1.5;white-space:pre-wrap;font-size:13.5px}.m.u{align-self:flex-end;background:var(--act);color:#fff}.m.a{align-self:flex-start;background:var(--bg)}
+#ai form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}#ai form input{flex:1}
+@media(max-width:1100px){.grid{grid-template-columns:1fr}.hero .car{opacity:.35}}
+@media(max-width:760px){body{flex-direction:column}aside{width:100%;height:auto;padding:12px}.tag,.status{display:none}.logo{font-size:24px}nav{display:flex;overflow-x:auto;gap:4px}nav button{width:auto;white-space:nowrap;padding:8px 10px;font-size:13px;margin:0}nav button svg{width:18px;height:18px}main{padding:16px}.qa .card{grid-column:span 6!important}.hero h1{font-size:26px}.dd{right:10px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<aside>
+ <div class="logo"><svg viewBox="0 0 48 30" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"><path d="M4 22v-5l5-9c1-2 3-3 5-3h20c2 0 4 1 5 3l5 9v5M2 22h44M10 14h28"/><circle cx="12" cy="22" r="3.5" fill="#081a42"/><circle cx="36" cy="22" r="3.5" fill="#081a42"/></svg>Auto<b>PDI</b></div>
+ <div class="tag">Smarter Inspections. Safer Journeys.</div>
+ <nav id="nav"></nav>
+ <div class="status"><i></i>System Online<small>AI Engine | RAG | FAISS</small></div>
+</aside>
+<main id="main"></main>
+<div class="modal" id="modal"><div class="mb" id="mb"></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const P={home:'M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10',insp:'M9 4h6v3H9zM7 5H5v16h14V5h-2M9 12l2 2 4-4M9 17h6',rep:'M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7',kb:'M3 5c3-1 6-1 9 1 3-2 6-2 9-1v14c-3-1-6-1-9 1-3-2-6-2-9-1zM12 6v14',set:'M12 15a3 3 0 100-6 3 3 0 000 6zM19 12l2-1-2-4-2 1-2-2 1-2-4-2-1 2h-3L8 2 4 4l1 2-2 2-2-1-1 4 2 1v3l-2 1 1 4 2-1 2 2-1 2 4 2 1-2h3l1 2 4-2-1-2 2-2 2 1 1-4-2-1z',car:'M3 16v-4l2-5h14l2 5v4M3 16h18M7 16v2M17 16v2M6 12h12',bell:'M6 16V11a6 6 0 0112 0v5l2 2H4zM10 21h4',pin:'M12 22s7-6 7-12a7 7 0 10-14 0c0 6 7 12 7 12zM12 12a2 2 0 100-4 2 2 0 000 4z',ph:'M5 4h4l2 5-2 1a11 11 0 005 5l1-2 5 2v4c0 1-1 2-2 2A16 16 0 013 6c0-1 1-2 2-2z',arr:'M5 12h14M13 6l6 6-6 6',bld:'M4 21V9l8-6 8 6v12M4 21h16M9 21v-7h6v7',star:'M12 3l3 6 6 1-4.5 4.5L18 21l-6-3-6 3 1.5-6.5L3 10l6-1z',doc:'M6 3h9l4 4v14H6zM9 12h7M9 16h7M9 8h3',eye:'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z',scan:'M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4M8 12h8',wrench:'M14 6a4 4 0 005 5l-9 9-4-4 9-9z',fil:'M5 6h14M7 10h10M9 14h6M11 18h2',wind:'M3 14c2-6 16-6 18 0M5 17l14-3M12 8v6',plug:'M9 3v5M15 3v5M7 8h10v4a5 5 0 01-10 0zM12 17v4',bulb:'M9 18h6M10 21h4M12 3a6 6 0 00-4 10c1 1 1 3 1 3h6s0-2 1-3a6 6 0 00-4-10z',chk:'M5 12l4 4 10-10'};
+const I=(k,c='')=>`<svg class="i ${c}" viewBox="0 0 24 24"><path d="${P[k]}"/></svg>`;
+const $=s=>document.querySelector(s);
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let S=Object.assign({name:'Pranav Nandhi',theme:'auto',unit:'km',api:''},ld('apdi_s',{}));
+let reports=ld('apdi_r',[]);let view='home';let draft=null;
+const applyTheme=()=>{if(S.theme==='auto')document.documentElement.removeAttribute('data-theme');else document.documentElement.setAttribute('data-theme',S.theme)};applyTheme();
+const toast=m=>{const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',2200)};
+const modal=h=>{$('#mb').innerHTML=h;$('#modal').classList.add('on')};const closeM=()=>$('#modal').classList.remove('on');
+$('#modal').onclick=e=>{if(e.target.id==='modal')closeM()};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const NAV=[['home','Home','home'],['inspection','Inspection','insp'],['reports','Reports','rep'],['kb','Knowledge Base','kb'],['settings','Settings','set']];
+const go=v=>{view=v;render();$('#main').scrollTop=0};
+const CATS={
+ parts:['Maintenance Service Parts','Engine, brakes, filters, fluids and more.',[['Engine oil 5W-30 (3.5 L)','Every 10,000 km'],['Brake pads, front set','Inspect every 20,000 km'],['Brake fluid DOT 4','Replace every 2 years'],['Coolant 50/50','Replace every 40,000 km'],['Spark plugs (set of 4)','Replace every 30,000 km']]],
+ manual:['e-Owner Manual','Owner’s manual, service schedule, reminders and history.',[['Owner’s manual (PDF)','Read the full guide'],['Service schedule','First service at 1,000 km'],['Warranty terms','3 years / 100,000 km'],['Tyre pressure chart','Front 33 psi, rear 33 psi'],['Dashboard warning lights','Meaning of each symbol']]],
+ filters:['Filters','Air, oil, fuel, cabin filters and more.',[['Engine air filter','Replace every 20,000 km'],['Oil filter','Replace at every oil change'],['Fuel filter','Replace every 40,000 km'],['Cabin air filter','Replace every 15,000 km']]],
+ wind:['Windscreen Cleaning System','Wiper blades, washer, nozzles and more.',[['Front wiper blade pair','Replace every 6–12 months'],['Rear wiper blade','Replace every 12 months'],['Washer fluid reservoir','Top up monthly'],['Washer nozzles','Clean if spray is uneven']]],
+ acc:['Accessories','Chargers, mounts, add-ons and more.',[['Fast car charger (45 W)','USB-C PD'],['Dashboard phone mount','Fits 4–7 inch phones'],['Floor mats, all-weather','Set of 4'],['Dash camera, front','1080p']]],
+ light:['Lighting','Headlights, taillights, indicators and more.',[['Headlight bulb H7','Pair'],['Tail light assembly','Left / right'],['Indicator bulb','Amber 21 W'],['Fog lamp','Left / right']]]};
+const CARDS=[['parts','car','t1','#3b82f6'],['manual','doc','t2','#14a3a3'],['filters','fil','t3','#16a37a'],['wind','wind','t4','#6d4aff'],['acc','plug','t5','#f59e0b'],['light','bulb','t6','#ef4444'],['pdi','doc','t2','#14a3a3']];
+const CONTACTS=[['Swift Auto Care','Authorized PDI Inspection Partner',2.4,4.8,124,'+91 99630 44187'],['Royal Motors Service Center','OEM Certified PDI Center',3.7,4.6,98,'+91 99630 44187'],['Sai Auto Diagnostics','PDI & Vehicle Health Check',5.1,4.5,76,'+91 99630 44187'],['DriveSafe Motors','Inspection & Verification Services',6.8,4.4,62,'+91 99630 44187']];
+const CAR=`<svg class="car" viewBox="0 0 640 260"><defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b7fb8"/><stop offset=".5" stop-color="#27427a"/><stop offset="1" stop-color="#0f1f46"/></linearGradient><radialGradient id="g" cx=".5" cy=".5"><stop offset="0" stop-color="#6fc3ff" stop-opacity=".5"/><stop offset="1" stop-color="#6fc3ff" stop-opacity="0"/></radialGradient></defs><ellipse cx="330" cy="240" rx="300" ry="14" fill="#000" opacity=".5"/><path d="M40 190c0-30 10-46 40-56l70-24c40-40 90-60 160-60 60 0 110 20 150 56l60 22c30 10 40 30 40 62v30H40z" fill="url(#b)"/><path d="M170 112c40-34 80-48 140-48 50 0 90 14 124 46z" fill="#0a1530" opacity=".85"/><path d="M42 160h560" stroke="#8fb2ee" stroke-opacity=".25"/><rect x="520" y="140" width="80" height="14" rx="6" fill="#bfe6ff"/><ellipse cx="580" cy="148" rx="60" ry="30" fill="url(#g)"/><path d="M570 170h40v34h-40z" fill="#0b1633"/><path d="M575 178h30M575 186h30M575 194h30" stroke="#7d93c4"/><g><circle cx="200" cy="214" r="38" fill="#0a1020"/><circle cx="200" cy="214" r="24" fill="#5c6a8c"/><circle cx="200" cy="214" r="8" fill="#0a1020"/><circle cx="470" cy="214" r="38" fill="#0a1020"/><circle cx="470" cy="214" r="24" fill="#5c6a8c"/><circle cx="470" cy="214" r="8" fill="#0a1020"/></g></svg>`;
+function header(){return`<header><div style="font-size:30px">👋</div><div class="greet">Good Morning,<b>${esc(S.name)}</b></div><div class="sp"></div><button class="bell" id="bell" aria-label="Notifications">${I('bell')}</button><div class="user" onclick="go('settings')"><div class="av">${I('home').replace(P.home,'M12 12a4 4 0 100-8 4 4 0 000 8zM4 21c0-5 4-7 8-7s8 2 8 7')}</div>${esc(S.name)} ▾</div></header><div class="dd" id="dd"><p><b>Welcome to AutoPDI</b><br>Start an inspection to generate your first report.</p><p>${reports.length} saved report${reports.length===1?'':'s'}.</p></div>`}
+function home(){
+ const qa=CARDS.map(([k,ic,t,col])=>{const c=CATS[k];const title=k==='pdi'?'Manual PDI Inspection':c[0];const sub=k==='pdi'?'Access OEM manuals, PDI checklist and guidance.':c[1];
+  return`<button class="card ${t}" onclick="${k==='pdi'?"go('kb')":`cat('${k}')`}"><div class="ic" style="background:${col}22;color:${col}">${I(ic)}</div><b>${title}</b><small>${sub}</small><span class="go" style="color:${col}">${I('arr')}</span></button>`}).join('');
+ const ct=CONTACTS.map((c,i)=>`<div class="ct"><span class="hi">${I(i==2||i==3?'car':'bld')}</span><b>${c[0]}</b><span class="km">${I('pin')}${S.unit==='km'?c[2]+' km':(c[2]*.621).toFixed(1)+' mi'}</span><small>${c[1]}</small><span></span><span class="rt"><s>★</s> <b>${c[3]}</b> (${c[4]} reviews)</span><div class="btns"><button class="btn" type="button" onclick="contact(${i})" aria-label="Show phone number">${I('ph')}</button><button class="btn" onclick="contact(${i})">Contact</button></div></div>`).join('');
+ return header()+`<section class="hero"><h1>Automotive <em>Pre-Delivery Inspection</em></h1><p>AI-powered multimodal inspection for safer, higher quality vehicle deliveries.</p><div class="pills"><div class="pill"><span>${I('car')}</span>Vision-Language Model</div><div class="pill"><span>${I('doc')}</span>RAG + OEM Docs</div><div class="pill"><span>${I('scan')}</span>Zero-Shot OOD</div></div>${CAR}</section>
+ <div class="grid"><section><h2>Quick Actions</h2><p class="sub">Start an inspection, check reports or explore resources.</p><div class="qa">${qa}</div><p style="margin-top:18px"><button class="btn p" onclick="go('inspection')">${I('insp')} Start new inspection</button></p></section>
+ <aside class="panel" style="display:block;width:auto;height:auto;background:var(--card);color:var(--ink);padding:20px"><div class="ph">${I('pin')}<div><h3>Nearby Manual PDI Inspection Contacts</h3><p>Find certified PDI inspection centers and experts near you.</p></div></div>${ct}<div class="note">${I('pin')}<span>Get expert inspection support, genuine OEM checks and reliable service — near you.</span></div></aside></div>`}
+function cat(k){const c=CATS[k];go('cat:'+k)}
+function catView(k){const c=CATS[k];return header()+`<div class="bar"><button class="btn" onclick="go('home')">← Back</button><h2>${c[0]}</h2></div><p class="sub">${c[1]}</p><div class="sec">${c[2].map(x=>`<div class="row"><span><b>${x[0]}</b><br><small style="color:var(--mut)">${x[1]}</small></span><button class="btn" onclick="toast('${x[0].replace(/'/g,'’')} added to your list')">Add to list</button></div>`).join('')}</div>`}
+function contact(i){const c=CONTACTS[i];modal(`<h3 style="margin-top:0">${c[0]}</h3><p style="color:var(--mut)">${c[1]}</p><p>Phone: <b>${c[5]}</b></p><div class="btns" style="justify-content:flex-start"><a class="btn p" href="tel:${c[5].replace(/ /g,'')}">${I('ph')} Call now</a><button class="btn" onclick="closeM();toast('Request sent to ${c[0].replace(/'/g,'’')}')">Request inspection</button><button class="btn" onclick="closeM()">Close</button></div>`)}
+const CHECK={'Exterior':['Paint finish, no scratches or dents','Panel gaps even','Glass and windscreen intact','Tyres, pressure and tread','Wiper blades and washer'],'Interior':['Seats and upholstery clean','Dashboard and controls work','Infotainment and connectivity','Seat belts and airbags warning','Floor mats and trims'],'Lighting & Electrical':['Headlights and high beam','Tail lights and indicators','Horn','Battery voltage','Warning lights clear'],'Under the Bonnet':['Engine oil level','Coolant level','Brake fluid level','Belts and hoses','No leaks'],'Documents & Accessories':['Owner’s manual and service book','Spare wheel and jack','Keys (2) and remote','Invoice and registration papers','Accessories as ordered']};
+function inspection(){
+ if(!draft)draft={veh:'',vin:'',model:'',km:'',insp:S.name,notes:'',res:{},imgs:[]};
+ const f=(k,l,p='')=>`<label>${l}<input value="${esc(draft[k])}" placeholder="${p}" oninput="draft.${k}=this.value"></label>`;
+ const secs=Object.entries(CHECK).map(([s,items])=>`<div class="sec"><h3>${s}</h3>${items.map(it=>{const r=draft.res[it]||'';return`<div class="row"><span>${it}</span><div class="seg">${['pass','fail','na'].map(o=>`<button class="${r===o?o:''}" onclick="setR('${it.replace(/'/g,"\\'")}','${o}')">${o==='na'?'N/A':o[0].toUpperCase()+o.slice(1)}</button>`).join('')}</div></div>`}).join('')}</div>`).join('');
+ const done=Object.keys(draft.res).length,tot=Object.values(CHECK).flat().length;
+ return header()+`<h2>New Inspection</h2><p class="sub">Complete the checklist, attach photos and generate the report. ${done}/${tot} items checked.</p><div class="f">${f('model','Vehicle model','e.g. Hyundai Creta')}${f('vin','VIN / chassis number','17 characters')}${f('km','Odometer (km)','e.g. 12')}${f('insp','Inspector')}</div>${secs}
+ <div class="sec"><h3>Photos</h3><input type="file" accept="image/*" multiple onchange="addImgs(this.files)"><div class="thumbs">${draft.imgs.map(s=>`<img src="${s}" alt="Inspection photo">`).join('')}</div></div>
+ <div class="sec"><h3>Notes</h3><textarea rows="3" placeholder="Defects, remarks, follow-ups" oninput="draft.notes=this.value">${esc(draft.notes)}</textarea></div>
+ <div class="sec"><h3>AI analysis</h3><p style="color:var(--mut);margin:0 0 10px">Scans your photos for defects and unusual parts.</p><button class="btn" onclick="aiScan()">${I('scan')} Analyze photos with AI</button><div id="aiout" style="margin-top:12px;white-space:pre-wrap;line-height:1.55"></div></div>
+ <button class="btn p" onclick="finish()">${I('chk')} Generate report</button> <button class="btn" onclick="draft=null;render()">Reset</button>`}
+function setR(it,o){draft.res[it]=draft.res[it]===o?undefined:o;if(!draft.res[it])delete draft.res[it];const y=$('#main').scrollTop;render();$('#main').scrollTop=y}
+function addImgs(fs){[...fs].slice(0,8).forEach(f=>{const r=new FileReader();r.onload=()=>{draft.imgs.push(r.result);const y=$('#main').scrollTop;render();$('#main').scrollTop=y};r.readAsDataURL(f)})}
+function finish(){if(!draft.model.trim()){toast('Enter the vehicle model first');return}
+ const v=Object.values(draft.res),fail=v.filter(x=>x==='fail').length,pass=v.filter(x=>x==='pass').length,tot=Object.values(CHECK).flat().length;
+ const rep={id:Date.now(),date:new Date().toLocaleString(),model:draft.model,vin:draft.vin,km:draft.km,insp:draft.insp,notes:draft.notes,res:draft.res,pass,fail,tot,unchecked:tot-v.length,imgs:draft.imgs.length};
+ reports.unshift(rep);try{sv('apdi_r',reports)}catch(e){};draft=null;toast('Report saved');go('reports');showRep(rep.id)}
+function reports_(){return header()+`<div class="bar"><h2>Reports</h2><div class="sp"></div><button class="btn p" onclick="go('inspection')">New inspection</button></div>`+(reports.length?`<div class="sec" style="overflow:auto"><table class="tbl"><tr><th>Date</th><th>Vehicle</th><th>VIN</th><th>Result</th><th></th></tr>${reports.map(r=>`<tr><td>${r.date}</td><td>${esc(r.model)}</td><td>${esc(r.vin||'—')}</td><td><span class="chip ${r.fail?'r':'g'}">${r.fail?r.fail+' failed':'Ready for delivery'}</span></td><td><button class="btn" onclick="showRep(${r.id})">${I('eye')} View</button> <button class="btn d" onclick="delRep(${r.id})">Delete</button></td></tr>`).join('')}</table></div>`:`<div class="sec">No reports yet. Run an inspection and its report will appear here.</div>`)}
+function showRep(id){const r=reports.find(x=>x.id===id);if(!r)return;const fails=Object.entries(r.res).filter(e=>e[1]==='fail').map(e=>e[0]);
+ modal(`<h3 style="margin-top:0">${esc(r.model)} — PDI report</h3><p style="color:var(--mut)">${r.date} · Inspector ${esc(r.insp)}<br>VIN ${esc(r.vin||'—')} · ${esc(r.km||'—')} km · ${r.imgs} photo(s)</p><p><span class="chip g">${r.pass} passed</span> <span class="chip r">${r.fail} failed</span> <span class="chip" style="background:var(--line)">${r.unchecked} unchecked</span></p>${fails.length?`<b>Failed items</b><ul>${fails.map(f=>`<li>${f}</li>`).join('')}</ul>`:'<p>No defects recorded.</p>'}${r.notes?`<p><b>Notes</b><br>${esc(r.notes)}</p>`:''}<div class="btns" style="justify-content:flex-start"><button class="btn p" onclick="window.print()">Print</button><button class="btn" onclick="closeM()">Close</button></div>`)}
+function delRep(id){reports=reports.filter(r=>r.id!==id);sv('apdi_r',reports);render()}
+const KB=[['Exterior inspection','Walk around the vehicle in daylight. Check paint for scratches, uneven gaps, glass chips, and tyre pressure including the spare.'],['Interior and electronics','Test every switch, the infotainment system, climate control, power windows, and seat adjustments. Confirm no warning lights after start.'],['Under the bonnet','Check engine oil, coolant, brake and washer fluid levels. Look for leaks, loose hoses and battery terminal corrosion.'],['Lighting check','Test low and high beam, fog lamps, indicators, brake lights, reverse lamps, and hazards.'],['Tyres and wheels','Verify pressure matches the placard, look for sidewall damage, and confirm wheel nuts are torqued to specification.'],['Documents handover','Confirm owner’s manual, service book, warranty card, invoice, registration papers and both keys are handed over.'],['Brake test','On a short road test, check pedal feel, no pulling to one side, and no unusual noise.'],['Zero-shot OOD detection','Flags image regions that look unlike normal parts so unusual defects are reviewed by a person.']];
+let kq='';
+function kb(){const l=KB.filter(a=>(a[0]+a[1]).toLowerCase().includes(kq.toLowerCase()));return header()+`<h2>Knowledge Base</h2><p class="sub">OEM-style guidance and PDI checklists.</p><input id="kq" placeholder="Search articles" value="${esc(kq)}" oninput="kq=this.value;kbList()" style="max-width:420px;margin-bottom:16px"><div id="kl">${kl2(l)}</div>`}
+const kl2=l=>l.length?l.map(a=>`<div class="sec"><h3>${a[0]}</h3><div style="color:var(--mut);line-height:1.6">${a[1]}</div></div>`).join(''):'<div class="sec">No articles match your search.</div>';
+function kbList(){$('#kl').innerHTML=kl2(KB.filter(a=>(a[0]+a[1]).toLowerCase().includes(kq.toLowerCase())))}
+function settings(){return header()+`<h2>Settings</h2><p class="sub">Saved in this browser.</p><div class="sec" style="max-width:520px"><div class="f" style="grid-template-columns:1fr"><label>Your name<input value="${esc(S.name)}" onchange="S.name=this.value||'User';sS();render()"></label><label>Theme<select onchange="S.theme=this.value;sS();applyTheme()"><option value="auto" ${S.theme=='auto'?'selected':''}>Match device</option><option value="light" ${S.theme=='light'?'selected':''}>Light</option><option value="dark" ${S.theme=='dark'?'selected':''}>Dark</option></select></label><label>Backend URL (AutoPDI API)<input placeholder="http://localhost:8000" value="${esc(S.api)}" onchange="S.api=this.value.trim().replace(/\/$/,'');sS();toast(S.api?'Backend set':'Backend cleared')"></label><label>Distance unit<select onchange="S.unit=this.value;sS()"><option value="km" ${S.unit=='km'?'selected':''}>Kilometres</option><option value="mi" ${S.unit=='mi'?'selected':''}>Miles</option></select></label></div><button class="btn d" onclick="if(confirm('Delete all saved reports?')){reports=[];sv('apdi_r',reports);toast('Reports cleared')}">Clear all reports</button></div>`}
+const sS=()=>sv('apdi_s',S);
+function render(){
+ $('#nav').innerHTML=NAV.map(([k,l,ic])=>`<button class="${view===k||(k==='home'&&view.startsWith('cat'))?'on':''}" onclick="go('${k}')">${I(ic)}${l}</button>`).join('');
+ $('#main').innerHTML=view==='home'?home():view.startsWith('cat:')?catView(view.slice(4)):view==='inspection'?inspection():view==='reports'?reports_():view==='kb'?kb():settings();
+ const b=$('#bell');if(b)b.onclick=e=>{e.stopPropagation();$('#dd').classList.toggle('on')};
+}
+document.addEventListener('click',()=>{const d=$('#dd');if(d)d.classList.remove('on')});
+render();
+const SYS='You are the AutoPDI assistant for automotive pre-delivery inspection. Give short, practical answers about PDI checks, parts, service and delivery. Use only the guidance given when it covers the question.';
+let hist=[],busy=false;
+const ai=document.createElement('div');ai.id='ai';
+ai.innerHTML='<div class="h">AutoPDI Assistant<button type="button" aria-label="Close" id="ax">×</button></div><div id="am"></div><form id="af"><input id="aq" placeholder="Ask about a PDI check or part" autocomplete="off"><button class="btn p">Send</button></form>';
+const fab=document.createElement('button');fab.className='fab';fab.innerHTML='✦ Ask AI';
+document.body.append(ai,fab);
+fab.onclick=()=>{ai.classList.toggle('on');if(ai.classList.contains('on')&&!hist.length)addM('a','Hi! Ask me what to check before delivery, or how to handle a defect.')};
+$('#ax').onclick=()=>ai.classList.remove('on');
+function addM(r,t){const d=document.createElement('div');d.className='m '+(r==='u'?'u':'a');d.textContent=t;$('#am').append(d);$('#am').scrollTop=1e9;return d}
+function kbCtx(q){const w=q.toLowerCase().split(/\W+/).filter(x=>x.length>3);const s=KB.map(a=>[w.filter(x=>(a[0]+a[1]).toLowerCase().includes(x)).length,a]).sort((a,b)=>b[0]-a[0]).slice(0,3);return s.map(x=>x[1][0]+': '+x[1][1]).join('\n')}
+$('#af').onsubmit=async e=>{e.preventDefault();if(busy)return;const q=$('#aq').value.trim();if(!q)return;$('#aq').value='';addM('u',q);const bub=addM('a','Thinking…');busy=true;
+ try{
+  if(S.api){const r=await fetch(S.api+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:q,history:hist})});const j=await r.json();bub.textContent=j.answer+(j.sources&&j.sources.length?'\n\nSources: '+j.sources.join(', '):'');hist.push({role:'user',content:q},{role:'assistant',content:j.answer})}
+  else{const sm=await claude.use('sample');if(!sm){bub.textContent='The assistant is unavailable here. Set a Backend URL in Settings to use your own server.';busy=false;return}
+   const msgs=hist.slice(-6).concat([{role:'user',content:SYS+'\n\nGuidance:\n'+kbCtx(q)+'\n\nQuestion: '+q}]);
+   const out=await sm(msgs,{cache:false,onText:({text})=>{bub.textContent=text}});bub.textContent=out.text;hist.push({role:'user',content:q},{role:'assistant',content:out.text})}
+ }catch(err){bub.textContent='Could not get an answer'+(S.api?'. Check that your backend is running at '+S.api+'.':'. Try again in a moment.')}
+ busy=false};
+async function aiScan(){const o=$('#aiout');if(!draft||!draft.imgs.length){o.textContent='Add at least one photo first.';return}o.textContent='Analyzing…';
+ try{const blobs=await Promise.all(draft.imgs.map(s=>fetch(s).then(r=>r.blob())));let txt='';
+  if(S.api){const fd=new FormData();blobs.forEach((b,i)=>fd.append('images',b,'photo'+i+'.jpg'));const j=await(await fetch(S.api+'/api/inspect',{method:'POST',body:fd})).json();
+   txt=j.results.map((r,i)=>{const f=r.finding||{};return 'Photo '+(i+1)+': '+(f.verdict||'review').toUpperCase()+(r.ood.is_ood?' (unusual image)':'')+'\n'+((f.defects||[]).map(d=>'• '+d.severity+': '+d.type+' — '+d.detail).join('\n')||'• No defects found')}).join('\n\n')}
+  else{const sm=await claude.use('sample');const lim=sm&&await sm.limits();if(!sm||!lim||!lim.images){o.textContent='Photo analysis needs a Backend URL in Settings.';return}
+   const out=await sm('You are a PDI inspector. For each attached photo, list visible defects with severity (low, medium, high) and give a verdict: pass, fail or review. Keep it short.',{images:blobs.slice(0,4),cache:false});txt=out.text}
+  o.textContent=txt;draft.notes=(draft.notes?draft.notes+'\n\n':'')+'AI analysis:\n'+txt;
+ }catch(e){o.textContent='Analysis failed'+(S.api?'. Check that your backend is running.':'. Try again in a moment.')}}
+</script></body></html>
